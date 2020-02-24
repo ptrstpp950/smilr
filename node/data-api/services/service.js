@@ -49,17 +49,14 @@ class Service {
     try {      
       var mongoqQS = new MongoQS();
       let { limit, skip, filter } = queryParams;
-      
       // Filter is string, e.g foo=bar, but we need an object of key-val pairs
       let filterQuery = querystring.parse(filter);
       // Now we can pass it to mongo-querystring
       var mongoQuery = mongoqQS.parse(filterQuery);
 
-      console.log(`### Querying collection: '${this.model.modelName.toLowerCase()}' with ${JSON.stringify(mongoQuery)} based on filter: ${filter}`);
-      
-      let items = await this.model.find(mongoQuery)
-      .limit(parseInt(limit) || 0)
-      .skip(parseInt(skip) || 0);
+      let items = await this.model.find(mongoQuery).exec();
+      //.limit(parseInt(limit) || 0)
+      //.skip(parseInt(skip) || 0);
       
       if(items)
         return items;

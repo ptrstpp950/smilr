@@ -29,7 +29,9 @@
     "express-swagger-generator": "^1.1.15",
     "mongo-querystring": "^4.1.1",
     "mongoose": "^5.7.7",
+    "mongoose-sql": "^1.0.45",
     "morgan": "^1.9.1",
+    "mssql": "^3.3.0",
     "passport-azure-ad": "^4.2.0"
   },
   "devDependencies": {

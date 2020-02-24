@@ -1,5 +1,5 @@
 const Controller = require('./controller');
-const mongoose = require ('mongoose');
+const mongoose = require ('mongoose-sql');
 const os = require ('os');
 const fs = require ('fs');
 

@@ -28,6 +28,8 @@ class BulkController extends Controller {
       let feedbackData = bulkData.feedback;
       let eventCount = 0; 
       let feedbackCount = 0;
+      console.log(`### herhe ${eventData}`);
+
       let eventService = new EventService();
       let feedbackService = new FeedbackService();
 

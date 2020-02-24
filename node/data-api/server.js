@@ -5,6 +5,7 @@ const cors = require('cors');
 const ExpressSwaggerGenerator = require('express-swagger-generator')
 
 const databaseConnection = require('./core/database');
+const databaseConnectionSql = require('./core/databaseSql');
 const apiRoutes = require('./core/routes');
 
 // Load .env file if it exists
@@ -51,6 +52,7 @@ console.log(`### Node environment is: ${app.get('env')}`);
 
 // Get config from env vars or defaults where not provided
 const port = process.env.PORT || 4000;
+var dbType = process.env.DB_CLIENT || 'mongo';
 var mongoUrl = process.env.MONGO_CONNSTR || process.env.MONGO_CONNECTION || process.env.MONGO_URL || `mongodb://localhost/smilrDb`
 const mongoTimeout = process.env.MONGO_CONNECT_TIMEOUT || 30000
 
@@ -95,14 +97,19 @@ app.use('*', function (req, res, next) {
 app.listen(port, async () => {
   try {
     // When testing run in-memory database
-    if(process.env.NODE_ENV == 'test') {
+    /*if(process.env.NODE_ENV == 'test') {
       const mongoMemSrv = require('mongodb-memory-server');
       const mongod = await new mongoMemSrv.MongoMemoryServer();
       mongoUrl = await mongod.getConnectionString();
-    }
+    }*/
 
-    // Try to connect to database, and await the promise returned 
-    await new databaseConnection(mongoUrl, mongoTimeout);
+    // Try to connect to database, and await the promise returned
+    if(dbType=='mongo') {
+      await new databaseConnection(mongoUrl, mongoTimeout);
+    } else {
+      var e = process.env;
+      await new databaseConnectionSql(dbType, e.DB_HOST, e.DB_USER, e.DB_PASSWORD);
+    }
 
     console.log(`### Connected OK. Server up & listening on port ${port}`);
   } catch(err) {

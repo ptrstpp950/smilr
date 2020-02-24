@@ -1,4 +1,4 @@
-const mongoose = require ('mongoose');
+const mongoose = require ('mongoose-sql');
 const axios = require ('axios');
 const Event = require('./event');
 
@@ -63,8 +63,8 @@ class Feedback {
   // Return an instance of Thing model
   getInstance() {
     // Ensure model schema is initialized only once
-    if(!mongoose.modelNames().includes(SCHEMA_NAME))
-      this.initSchema();
+    //if(!mongoose.modelNames().includes(SCHEMA_NAME))
+    this.initSchema();
 
     return mongoose.model(SCHEMA_NAME);
   }
