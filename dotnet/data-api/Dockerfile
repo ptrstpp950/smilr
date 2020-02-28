@@ -2,13 +2,16 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /source
 
+LABEL version="6.1.0"
+ARG basedir="dotnet/data-api"
+
 # copy csproj and restore as distinct layers
-COPY *.sln .
-COPY src/Smilr.DotNet/*.csproj ./src/Smilr.DotNet/
+COPY ${basedir}/*.sln .
+COPY ${basedir}/src/Smilr.DotNet/*.csproj ./src/Smilr.DotNet/
 RUN dotnet restore
 
 # copy everything else and build app
-COPY src/Smilr.DotNet/. ./src/Smilr.DotNet/
+COPY ${basedir}/src/Smilr.DotNet/. ./src/Smilr.DotNet/
 WORKDIR /source/src/Smilr.DotNet
 RUN dotnet publish -c release -o /app
 
